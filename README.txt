@@ -1,0 +1,1 @@
+Basic calculator made solely for the purpose of learning reactJS.

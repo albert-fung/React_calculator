@@ -12,6 +12,11 @@ textarea
     margin: 2px 2px 2px 2px;
     width:54px;
 }
+.ExtraLongButton
+{
+    margin:2px 2px 2px 2px;
+    width:83px;
+}
 #CalcOutput
 {
     border: 1px solid black;

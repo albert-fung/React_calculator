@@ -1,53 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import History from './history.js';
 
 /*Creating all buttons on calculator */
 class Calcbutton extends React.Component
-{
-    render()
-    {
-    return(
-     <button className={this.props.className} onClick={this.props.onClick} >{this.props.value}</button>
-    );
-  }
-}
-/*creating calculator output view */
+{render(){return(<button className={this.props.className} onClick={this.props.onClick} >{this.props.value}</button>);}}
+/*Creating calculator output view */
 class Inputview extends React.Component
-{
-  render()
-  {
-    return(
-      <pre id="CalcOutput">{this.props.Outputview}</pre>
-    );
-  }
-}
+{render(){return(<pre id="CalcOutput">{this.props.Outputview}</pre>);}}
 
 class Calculator extends React.Component{
-  constructor()
-  {
+  constructor(){
     super()
-    this.state=
-    {
+    this.state={
       output: ' ',
       isEnterClicked:false,
-    };
-  }
-  /*Rendering number and function buttons */
-
-/* clickhandler if button is a function button (CLR or enter) */
+      history:["hello","bye"]
+    };}
+ 
+/* clickhandler if button is a function button (CLR or = (enter)) */
   functionbutton(i)
   {
-    if (i==="CLR")
-    {
+    if (i==="CLR"){
       this.setState({
         output:' ',
         isEnterClicked:false,})
-    }
+      }
     if(i==="=")
     {
-      try
-      {
+      try{
         var answer=eval(this.state.output)
         this.setState({
           output:answer,
@@ -62,10 +44,6 @@ class Calculator extends React.Component{
           })
       }
     }
-  }
-  checkexpression(expression)
-  {
-    
   }
   /*rerendering outputview */
   outputview(i,buttontype)
@@ -89,6 +67,7 @@ class Calculator extends React.Component{
     }
 
   }
+   /*Rendering number and function buttons */
   rendernumButton(i,className,buttontype)
   {
     return <Calcbutton onClick={()=>this.outputview(i,buttontype)} value={i} className={className}/>;
@@ -97,9 +76,11 @@ class Calculator extends React.Component{
   {
     return <Calcbutton onClick={()=>this.functionbutton(i)} value={i} className={className}/>;
   }
+
   render()
   {
     return (
+      <div>
       <div id="CalcBody">
         <Inputview Outputview={this.state.output}/>
         <div className="CalRow">
@@ -126,7 +107,10 @@ class Calculator extends React.Component{
           {this.renderfunctionButton("=","ExtraLongButton","function")}
           {this.rendernumButton(".","SquareButton","value")}
         </div>
+        
       </div>
+      <History history={this.state.history}/>
+</div>
     );
   }
 }

@@ -14,9 +14,12 @@ class Calculator extends React.Component{
   constructor(){
     super()
     this.state={
+      //what gets outputted onto the screen
       output: ' ',
+      //is entered the last thing clicked? 
       isEnterClicked:false,
-      history:["hello","bye"]
+      //history of your calculator 
+      history:[]
     };}
  
 /* clickhandler if button is a function button (CLR or = (enter)) */
@@ -30,7 +33,11 @@ class Calculator extends React.Component{
     if(i==="=")
     {
       try{
+        //changing state for history whenever = is pressed
         var answer=eval(this.state.output)
+        this.setState({
+          history:this.state.history.concat([this.state.output])
+        })
         this.setState({
           output:answer,
           isEnterClicked:true,
@@ -46,19 +53,19 @@ class Calculator extends React.Component{
     }
   }
   /*rerendering outputview */
-  outputview(i,buttontype)
+  outputview(valueClicked,buttontype)
   {
     /*If a value button is clicked after pressing enter everything will be cleared and only the value will be present */
     if(this.state.isEnterClicked && buttontype==="value")
     {
         this.setState({
-          output:i,
+          output:valueClicked,
           isEnterClicked:false,
         })
     }
     else
     {
-      var newOutput = this.state.output + i
+      var newOutput = this.state.output + valueClicked
       this.setState(
           {
           output:newOutput,
@@ -84,22 +91,22 @@ class Calculator extends React.Component{
       <div id="CalcBody">
         <Inputview Outputview={this.state.output}/>
         <div className="CalRow">
-        {this.rendernumButton(1,"SquareButton","value")}
-        {this.rendernumButton(2,"SquareButton","value")}
-        {this.rendernumButton(3,"SquareButton","value")}
+        {this.rendernumButton("1","SquareButton","value")}
+        {this.rendernumButton("2","SquareButton","value")}
+        {this.rendernumButton("3","SquareButton","value")}
         {this.renderfunctionButton("CLR","LongButton","function")}
         </div>
         <div className="CalRow">
-        {this.rendernumButton(4,"SquareButton","value")}
-        {this.rendernumButton(5,"SquareButton","value")}
-        {this.rendernumButton(6,"SquareButton","value")}
+        {this.rendernumButton("4","SquareButton","value")}
+        {this.rendernumButton("5","SquareButton","value")}
+        {this.rendernumButton("6","SquareButton","value")}
         {this.rendernumButton("+","SquareButton","operation")}
         {this.rendernumButton("-","SquareButton","operation")}
         </div>
         <div className="CalRow">
-        {this.rendernumButton(7,"SquareButton","value")}
-        {this.rendernumButton(8,"SquareButton","value")}
-        {this.rendernumButton(9,"SquareButton","value")}
+        {this.rendernumButton("7","SquareButton","value")}
+        {this.rendernumButton("8","SquareButton","value")}
+        {this.rendernumButton("9","SquareButton","value")}
         {this.rendernumButton("*","SquareButton","operation")}
         {this.rendernumButton("/","SquareButton","operation")}
         </div>

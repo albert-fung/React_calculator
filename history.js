@@ -1,16 +1,20 @@
 import React from 'react';
 
+
 export default class History extends React.Component
 {
-    constructor(){
-        super()
-    }
+//<div><button value onClick={()=>histclicked()}>{equation}={eval(equation)}</button></div>
+
     render()
     {return(
      <div>
         <div>History</div>
         <ol>
-            {this.props.history}
+        {this.props.history.map(equation=>{
+                return createHistory(equation);
+
+
+            })}
         </ol>
     </div>
 )}}

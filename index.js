@@ -4,13 +4,14 @@ import './index.css';
 
 class History extends React.Component
 {
- /*Function is any button on the history is clicked */
+
     render()
     {return(
      <div>
         <div>History</div>   
         {this.props.history.map(equation=>{
-                return <li key={equation}><button value={equation} onClick={this.props.isClicked(this.value)}>{equation}={eval(equation)}</button></li>
+                var answer = eval(equation);
+                return <li key={equation}><button value={equation} onClick={()=>this.props.isClicked(answer)}>{equation}={answer}</button></li>
             })}
     </div>
 )}}
@@ -32,7 +33,9 @@ class Calculator extends React.Component{
       isEnterClickedOrError:false,
       //history of your calculator 
       history:[]
-    };}
+    };
+    this.handleClickHistory = this.handleClickHistory.bind(this);
+  }
  
 /* clickhandler if button is a function button (CLR or = (enter)) */
   functionbutton(i)
@@ -89,10 +92,11 @@ class Calculator extends React.Component{
     }
   }
   /*TODO  */
-  histclicked(value)
+  handleClickHistory(value)
   {
-    console.log("hello");
-    console.log(value);
+    this.setState({
+      output:value,
+    });
   }
    /*Rendering number and function buttons */
   rendernumButton(i,className,buttontype)
@@ -137,7 +141,7 @@ class Calculator extends React.Component{
         
       </div>
       <ul>
-      <History isClicked={()=>this.histclicked} history={this.state.history}/>
+      <History isClicked={this.handleClickHistory} history={this.state.history}/>
       </ul>
 </div>
     );

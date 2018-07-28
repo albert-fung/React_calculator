@@ -1,7 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import History from './history.js';
+
+class History extends React.Component
+{
+ /*Function is any button on the history is clicked */
+    render()
+    {return(
+     <div>
+        <div>History</div>   
+        {this.props.history.map(equation=>{
+                return <li key={equation}><button value={equation} onClick={this.props.isClicked(this.value)}>{equation}={eval(equation)}</button></li>
+            })}
+    </div>
+)}}
 
 /*Creating all buttons on calculator */
 class Calcbutton extends React.Component
@@ -17,7 +29,7 @@ class Calculator extends React.Component{
       //what gets outputted onto the screen
       output: ' ',
       //is entered the last thing clicked? 
-      isEnterClicked:false,
+      isEnterClickedOrError:false,
       //history of your calculator 
       history:[]
     };}
@@ -28,9 +40,10 @@ class Calculator extends React.Component{
     if (i==="CLR"){
       this.setState({
         output:' ',
-        isEnterClicked:false,})
+        isEnterClickedOrError:false,})
       }
-    if(i==="=")
+    //if enter is clicked multiple times in a row it will not add to 
+    if(i==="=" && !this.state.isEnterClickedOrError)
     {
       try{
         //changing state for history whenever = is pressed
@@ -40,27 +53,29 @@ class Calculator extends React.Component{
         })
         this.setState({
           output:answer,
-          isEnterClicked:true,
+          isEnterClickedOrError:true,
           })
       }
+      //if equation is mathamatically incorrect
       catch(e)
       {
         this.setState({
           output:"Error",
-          isEnterClicked:false,
+          isEnterClickedOrError:true,
           })
       }
     }
   }
+ 
   /*rerendering outputview */
   outputview(valueClicked,buttontype)
   {
     /*If a value button is clicked after pressing enter everything will be cleared and only the value will be present */
-    if(this.state.isEnterClicked && buttontype==="value")
+    if(this.state.isEnterClickedOrError && buttontype==="value")
     {
         this.setState({
           output:valueClicked,
-          isEnterClicked:false,
+          isEnterClickedOrError:false,
         })
     }
     else
@@ -69,10 +84,15 @@ class Calculator extends React.Component{
       this.setState(
           {
           output:newOutput,
-          isEnterClicked:false,
+          isEnterClickedOrError:false,
           })
     }
-
+  }
+  /*TODO  */
+  histclicked(value)
+  {
+    console.log("hello");
+    console.log(value);
   }
    /*Rendering number and function buttons */
   rendernumButton(i,className,buttontype)
@@ -116,7 +136,9 @@ class Calculator extends React.Component{
         </div>
         
       </div>
-      <History history={this.state.history}/>
+      <ul>
+      <History isClicked={()=>this.histclicked} history={this.state.history}/>
+      </ul>
 </div>
     );
   }
